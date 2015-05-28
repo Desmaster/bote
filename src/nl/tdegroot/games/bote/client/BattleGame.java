@@ -1,5 +1,8 @@
 package nl.tdegroot.games.bote.client;
 
+import nl.tdegroot.games.bote.common.DeliveryService;
+import nl.tdegroot.games.bote.common.LoginPacket;
+import nl.tdegroot.games.bote.common.Network;
 import nl.tdegroot.games.pixxel.GameException;
 import nl.tdegroot.games.pixxel.PixxelGame;
 
@@ -10,7 +13,13 @@ public class BattleGame extends PixxelGame{
     }
 
     public void init() throws GameException {
+        DeliveryService deliveryService = new DeliveryService("localhost");
+        deliveryService.start();
 
+        LoginPacket login = new LoginPacket();
+        login.name = "Simone";
+
+        deliveryService.send(login);
     }
 
     public void tick(int delta) {
@@ -23,6 +32,7 @@ public class BattleGame extends PixxelGame{
 
     public static void main(String[] args) {
         BattleGame game = new BattleGame("Battle of Tiled Environments", 1280, 720, 4);
+        game.setLogFps(false);
         game.start();
     }
 }
