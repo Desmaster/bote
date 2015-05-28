@@ -1,0 +1,3 @@
+[submodule "src/nl/tdegroot/games/pixxel"]
+	path = src/nl/tdegroot/games/pixxel
+	url = git@github.com:Desmaster/Pixxel.git
