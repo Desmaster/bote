@@ -2,6 +2,7 @@ package nl.tdegroot.games.bote.common;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
+import nl.tdegroot.games.bote.common.packet.LoginPacket;
 
 public class Network {
 

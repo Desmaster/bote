@@ -1,8 +1,6 @@
 package nl.tdegroot.games.bote.client;
 
-import nl.tdegroot.games.bote.common.DeliveryService;
-import nl.tdegroot.games.bote.common.LoginPacket;
-import nl.tdegroot.games.bote.common.Network;
+import nl.tdegroot.games.bote.common.packet.LoginPacket;
 import nl.tdegroot.games.pixxel.GameException;
 import nl.tdegroot.games.pixxel.PixxelGame;
 
@@ -19,7 +17,7 @@ public class BattleGame extends PixxelGame{
         LoginPacket login = new LoginPacket();
         login.name = "Simone";
 
-        deliveryService.send(login);
+        deliveryService.sendTCP(login);
     }
 
     public void tick(int delta) {

@@ -2,6 +2,7 @@ package nl.tdegroot.games.bote.common;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import nl.tdegroot.games.bote.common.packet.Packet;
 import nl.tdegroot.games.pixxel.util.Log;
 
 public class ClientListener extends Listener {

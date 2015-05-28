@@ -1,4 +1,4 @@
-package nl.tdegroot.games.bote.common;
+package nl.tdegroot.games.bote.common.packet;
 
 import com.esotericsoftware.kryonet.Connection;
 

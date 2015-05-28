@@ -1,11 +1,12 @@
-package nl.tdegroot.games.bote.common;
+package nl.tdegroot.games.bote.client;
 
 import com.esotericsoftware.kryonet.Client;
+import nl.tdegroot.games.bote.common.Network;
+import nl.tdegroot.games.bote.common.packet.Packet;
 import nl.tdegroot.games.pixxel.util.Log;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 public class DeliveryService {
 
@@ -33,8 +34,12 @@ public class DeliveryService {
         }
     }
 
-    public void send(Packet packet) {
+    public void sendTCP(Packet packet) {
         client.sendTCP(packet);
-        Log.info("Sent packet");
     }
+
+    public void sendUDP(Packet packet) {
+        client.sendUDP(packet);
+    }
+
 }
