@@ -4,7 +4,9 @@ import nl.tdegroot.games.bote.common.packet.LoginPacket;
 import nl.tdegroot.games.pixxel.GameException;
 import nl.tdegroot.games.pixxel.PixxelGame;
 
-public class BattleGame extends PixxelGame{
+public class BattleGame extends PixxelGame {
+
+    private boolean loggedIn = false;
 
     public BattleGame(String title, int width, int height, int scale) {
         super(title, width, height, scale);
@@ -26,6 +28,10 @@ public class BattleGame extends PixxelGame{
 
     public void render() {
 
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
     }
 
     public static void main(String[] args) {

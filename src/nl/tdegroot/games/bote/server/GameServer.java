@@ -3,13 +3,18 @@ package nl.tdegroot.games.bote.server;
 import com.esotericsoftware.kryonet.Server;
 import nl.tdegroot.games.bote.common.Network;
 import nl.tdegroot.games.bote.common.ServerListener;
+import nl.tdegroot.games.bote.common.level.Level;
 import nl.tdegroot.games.pixxel.util.Log;
 
-import java.io.*;
+import java.io.IOException;
+import java.util.HashMap;
 
 public class GameServer {
 
     private Server server;
+    private ServerListener serverListener;
+    private HashMap<Integer, String> clients = new HashMap<Integer, String>();
+    private Level level;
 
     private String name;
 
@@ -21,6 +26,10 @@ public class GameServer {
         this.name = name;
 
         server = new Server();
+        serverListener = new ServerListener(this);
+        level = new Level();
+
+        serverListener.setLevel(level);
     }
 
     public void start() {
@@ -32,8 +41,11 @@ public class GameServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        server.addListener(new ServerListener());
+        server.addListener(serverListener);
     }
 
+    public void addClient(int id, String name) {
+        clients.put(id, name);
+    }
 
 }

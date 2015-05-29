@@ -1,6 +1,7 @@
 package nl.tdegroot.games.bote.client;
 
 import com.esotericsoftware.kryonet.Client;
+import nl.tdegroot.games.bote.common.ClientListener;
 import nl.tdegroot.games.bote.common.Network;
 import nl.tdegroot.games.bote.common.packet.Packet;
 import nl.tdegroot.games.pixxel.util.Log;
