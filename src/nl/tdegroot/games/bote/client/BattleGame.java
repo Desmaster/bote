@@ -3,6 +3,8 @@ package nl.tdegroot.games.bote.client;
 import nl.tdegroot.games.bote.common.packet.LoginPacket;
 import nl.tdegroot.games.pixxel.GameException;
 import nl.tdegroot.games.pixxel.PixxelGame;
+import nl.tdegroot.games.pixxel.gfx.Color;
+import nl.tdegroot.games.pixxel.gfx.Screen;
 
 public class BattleGame extends PixxelGame {
 
@@ -26,8 +28,7 @@ public class BattleGame extends PixxelGame {
 
     }
 
-    public void render() {
-
+    public void render(Screen screen) {
     }
 
     public void setLoggedIn(boolean loggedIn) {
