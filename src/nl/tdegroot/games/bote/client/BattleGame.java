@@ -29,6 +29,7 @@ public class BattleGame extends PixxelGame {
     }
 
     public void render(Screen screen) {
+        screen.drawPoint(1, 1);
     }
 
     public void setLoggedIn(boolean loggedIn) {
