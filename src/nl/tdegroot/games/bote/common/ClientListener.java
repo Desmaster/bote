@@ -33,11 +33,11 @@ public class ClientListener extends Listener {
         return game;
     }
 
-    public Level getLevel() {
+    public synchronized Level getLevel() {
         return level;
     }
 
-    public void setLevel(Level level) {
+    public synchronized void setLevel(Level level) {
         this.level = level;
     }
 

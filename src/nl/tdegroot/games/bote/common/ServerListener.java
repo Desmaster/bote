@@ -33,11 +33,11 @@ public class ServerListener extends Listener {
         return gameServer;
     }
 
-    public Level getLevel() {
+    public synchronized Level getLevel() {
         return level;
     }
 
-    public void setLevel(Level level) {
+    public synchronized void setLevel(Level level) {
         this.level = level;
 
     }

@@ -15,7 +15,6 @@ import nl.tdegroot.games.pixxel.util.Log;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 public class BattleGame extends PixxelGame {
 
@@ -38,7 +37,7 @@ public class BattleGame extends PixxelGame {
     public void init() throws GameException {
         Log.info("Trying to connect to server on: " + host + ":" + Network.TCP_PORT + "/" + Network.UDP_PORT);
         try {
-            client = new Client();
+            client = new Client(8192, 8192);
 
             level = new Level();
 
@@ -64,15 +63,16 @@ public class BattleGame extends PixxelGame {
 
     public void tick(int delta) {
         if (loggedIn) {
-            if (level.getMap() == null) {
-                TiledMapPacket tiledMapPacket = new TiledMapPacket();
-                sendTCP(tiledMapPacket);
+            if (getLevel().getMap() == null && time % 60 == 0) {
+                sendTCP(new TiledMapPacket());
             }
         }
     }
 
     public void render(Screen screen) {
         screen.drawPoint(1, 1);
+        if (level.getMap() != null)
+        level.getMap().render(0, 0, this.display.screen);
     }
 
     public void setLoggedIn(boolean loggedIn) {
@@ -91,5 +91,9 @@ public class BattleGame extends PixxelGame {
         BattleGame game = new BattleGame("Battle of Tiled Environments", 1280, 720, 4, "localhost");
         game.setLogFps(false);
         game.start();
+    }
+
+    public synchronized Level getLevel() {
+        return level;
     }
 }

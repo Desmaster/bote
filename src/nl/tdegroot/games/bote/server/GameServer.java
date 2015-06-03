@@ -25,7 +25,7 @@ public class GameServer {
     public GameServer(String name) {
         this.name = name;
 
-        server = new Server();
+        server = new Server(8192, 8192);
         serverListener = new ServerListener(this);
         level = new Level();
 

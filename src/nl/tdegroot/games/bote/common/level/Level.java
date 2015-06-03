@@ -4,9 +4,13 @@ import nl.tdegroot.games.pixxel.map.tiled.TiledMap;
 
 public class Level {
 
-    private TiledMap map;
+    private volatile TiledMap map;
 
-    public TiledMap getMap() {
+    public synchronized TiledMap getMap() {
         return map;
+    }
+
+    public synchronized void setMap(TiledMap map) {
+        this.map = map;
     }
 }
