@@ -87,7 +87,7 @@ public class BattleGame extends PixxelGame {
         display.setTitle("Camera x: " + cam.getX() + " Camera y: " + cam.getY());
         
         if (loggedIn) {
-            if (getLevel().getMap() == null && time % 60 == 0) {
+            if (level.getMap() == null && time % 60 == 0) {
                 sendTCP(new TiledMapPacket());
             }
         }
@@ -120,8 +120,5 @@ public class BattleGame extends PixxelGame {
         game.setLogFps(false);
         game.start();
     }
-
-    public synchronized Level getLevel() {
-        return level;
-    }
+    
 }

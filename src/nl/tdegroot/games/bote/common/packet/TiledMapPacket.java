@@ -3,9 +3,7 @@ package nl.tdegroot.games.bote.common.packet;
 import com.esotericsoftware.kryonet.Connection;
 import nl.tdegroot.games.bote.common.ClientListener;
 import nl.tdegroot.games.bote.common.ServerListener;
-import nl.tdegroot.games.bote.common.level.Level;
 import nl.tdegroot.games.pixxel.GameException;
-import nl.tdegroot.games.pixxel.gfx.Sprite;
 import nl.tdegroot.games.pixxel.map.tiled.TiledMap;
 import nl.tdegroot.games.pixxel.util.FileUtils;
 import nl.tdegroot.games.pixxel.util.Log;
@@ -16,23 +14,24 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.image.BufferedImage;
-import java.awt.image.WritableRaster;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
 public class TiledMapPacket implements Packet {
 
     private String tiledMapContents;
-    private Sprite[] sprites;
 
     public void onServer(Connection connection, ServerListener serverListener) {
         tiledMapContents = getTiledMapContents();
-        sprites = getSpriteSheets("res/tiledmap.tmx");
-
+        sendTilesets("res/tiledmap.tmx", connection);
         connection.sendTCP(this);
     }
 
@@ -40,12 +39,7 @@ public class TiledMapPacket implements Packet {
         if (clientListener.getLevel().getMap() != null) return;
 
         Log.info("Received map with height: " + tiledMapContents);
-        for (int i = 0; i < sprites.length; i++) {
-            Sprite sprite = sprites[i];
-            BufferedImage image = FileUtils.createImageFromPixels(sprite.getPixels(), sprite.width, sprite.height);
-            String path = FileUtils.getHomeDirectory() + sprite.getFileName();
-            FileUtils.writeImage(path, image);
-        }
+
         InputStream in = new ByteArrayInputStream(tiledMapContents.getBytes(StandardCharsets.UTF_8));
         try {
             TiledMap map = new TiledMap(in, FileUtils.getHomeDirectory());
@@ -75,8 +69,7 @@ public class TiledMapPacket implements Packet {
         return output.toString();
     }
 
-    private Sprite[] getSpriteSheets(String ref) {
-        Sprite[] sprites = null;
+    private void sendTilesets(String ref, Connection connection) {
         String tileSetLocation = ref.substring(0, ref.lastIndexOf("/"));
         try {
             InputStream in = ResourceLoader.getResourceAsStream(ref);
@@ -94,29 +87,34 @@ public class TiledMapPacket implements Packet {
             for (int i = 0; i < setNodes.getLength(); i++) {
                 Element current = (Element) setNodes.item(i);
                 NodeList list = current.getElementsByTagName("image");
-                sprites = new Sprite[list.getLength() * setNodes.getLength()];
                 for (int j = 0; j < list.getLength(); j++) {
-                    Element image = (Element) list.item(i);
-                    String source = image.getAttribute("source");
+                    Element imageNode = (Element) list.item(j);
+                    String source = imageNode.getAttribute("source");
 
                     String currentPath = tileSetLocation + "/" + source;
                     currentPath = currentPath.replace('\\', '/');
 
-                    Sprite sprite = new Sprite(currentPath);
-                    sprites[j + i * list.getLength()] = sprite;
+                    BufferedImage image = ImageIO.read(ResourceLoader.getResourceAsStream(currentPath));
+                    int imageWidth = image.getWidth();
+                    int imageHeight = image.getHeight();
+                    int[] pixels = new int[imageWidth * imageHeight];
+                    image.getRGB(0, 0, imageWidth, imageHeight, pixels, 0, imageWidth);
+
+                    int index = currentPath.lastIndexOf("/");
+                    String fileName = currentPath.substring(index + 1);
+
+                    ImageFilePacket imagePacket = new ImageFilePacket();
+                    imagePacket.fileName = fileName;
+                    imagePacket.pixels = pixels;
+                    imagePacket.width = imageWidth;
+                    imagePacket.height = imageHeight;
+
+                    connection.sendTCP(imagePacket);
                 }
             }
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
-        return sprites;
-    }
-
-    public static BufferedImage getImageFromArray(int[] pixels, int width, int height) {
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        WritableRaster raster = (WritableRaster) image.getData();
-        raster.setPixels(0, 0, width, height, pixels);
-        return image;
     }
 
 }

@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="8" tileheight="8" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="8" tileheight="8">
  <tileset firstgid="1" name="terrain_minimal" tilewidth="8" tileheight="8">
   <image source="terrain_minimal.png" width="8" height="8"/>
  </tileset>
+ <tileset firstgid="2" name="terrain_smallest" tilewidth="8" tileheight="8">
+  <image source="terrain_smallest.png" width="72" height="24"/>
+ </tileset>
+ <layer name="Tilelaag 2" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAACxNhYGAQGcWDBgMA/yZ5hJABAAA=
+  </data>
+ </layer>
  <layer name="Tilelaag 1" width="10" height="10">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NkYGBgHMWDBgMAjw2X0pABAAA=
+   H4sIAAAAAAAAC2NjYGBgJ4A5gJifgTAQHFWHU50EEEsSwFJADABNRth2kAEAAA==
   </data>
  </layer>
 </map>
