@@ -101,6 +101,8 @@ public class BattleGame extends PixxelGame {
             level.getMap().render(0, 0, this.display.screen);
 
         screen.translate(-cam.getX(), -cam.getY());
+
+
     }
 
     public void setLoggedIn(boolean loggedIn) {
