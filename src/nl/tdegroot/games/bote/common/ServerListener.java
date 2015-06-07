@@ -26,10 +26,19 @@ public class ServerListener extends Listener {
 
     public void received(Connection connection, Object obj) {
         if (!(obj instanceof Packet)) return;
-        ((Packet) obj).onServer(connection, gameServer);
+        ((Packet) obj).onServer(connection, this);
     }
 
-    public void setLevel(Level level) {
+    public GameServer getGameServer() {
+        return gameServer;
+    }
+
+    public synchronized Level getLevel() {
+        return level;
+    }
+
+    public synchronized void setLevel(Level level) {
         this.level = level;
+
     }
 }
