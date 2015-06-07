@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="8" tileheight="8">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="8" tileheight="8" nextobjectid="1">
  <tileset firstgid="1" name="terrain_minimal" tilewidth="8" tileheight="8">
   <image source="terrain_minimal.png" width="8" height="8"/>
  </tileset>
  <tileset firstgid="2" name="terrain_smallest" tilewidth="8" tileheight="8">
   <image source="terrain_smallest.png" width="72" height="24"/>
  </tileset>
- <layer name="Tilelaag 2" width="10" height="10">
+ <layer name="Tilelaag 2" width="100" height="100">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACxNhYGAQGcWDBgMA/yZ5hJABAAA=
+   H4sIAAAAAAAAC+3RMQ0AMAzEwAcR/lhLoEOm6Ic7yQg8SWYRNzYv/LjjRxc/uvjRxY8ufnTxo4sfXfwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPh7e4Sas0CcAAA=
   </data>
  </layer>
- <layer name="Tilelaag 1" width="10" height="10">
+ <layer name="Tilelaag 1" width="100" height="100">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NjYGBgJ4A5gJifgTAQHFWHU50EEEsSwFJADABNRth2kAEAAA==
+   H4sIAAAAAAAAC+3RMQqAQBAEwcVAzcTs9P8P9X6w2TFgDVQ+0HtVHY1z2ljiqn53wM+/0COLHln0yKJHFj2y6JFFjyxjehpvwE8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgNU+ItRD60CcAAA=
   </data>
  </layer>
 </map>
