@@ -9,7 +9,7 @@ import nl.tdegroot.games.pixxel.util.Log;
 
 public class ClientListener extends Listener {
 
-    private BattleGame game;
+    private final BattleGame game;
     private Level level;
 
     public ClientListener(BattleGame game) {
