@@ -20,23 +20,24 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 public class GameState extends State {
+
     private Client client;
-
     private final String host;
-
-    private Level level;
 
     private boolean loggedIn = false;
 
-    Camera cam;
+    private Display display;
+    private Camera cam;
+    private Level level;
 
     public GameState(PixxelGame game, String host) {
         super(game);
-
         this.host = host;
     }
 
     public void init(Display display) throws GameException {
+        this.display = display;
+
         Log.info("Trying to connect to server on: " + host + ":" + Network.TCP_PORT + "/" + Network.UDP_PORT);
         try {
             client = new Client(8192, 8192);
@@ -65,7 +66,7 @@ public class GameState extends State {
         cam = new Camera(0, 0, display.getScaledWidth(), display.getScaledHeight());
     }
 
-    public void tick(Display display, int delta) {
+    public void tick() {
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
             cam.setY(cam.getY() - 5);
         }
@@ -91,7 +92,7 @@ public class GameState extends State {
         }
     }
 
-    public void render(Display display, Screen screen) {
+    public void render(Screen screen) {
         screen.setProjectionMatrix(cam.getProjectionMatrix());
         screen.translate(cam.getX(), cam.getY());
 
@@ -114,4 +115,5 @@ public class GameState extends State {
     public void sendUDP(Packet packet) {
         client.sendUDP(packet);
     }
+
 }
