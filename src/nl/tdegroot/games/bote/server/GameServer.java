@@ -4,6 +4,7 @@ import com.esotericsoftware.kryonet.Server;
 import nl.tdegroot.games.bote.common.Network;
 import nl.tdegroot.games.bote.common.ServerListener;
 import nl.tdegroot.games.bote.common.level.Level;
+import nl.tdegroot.games.bote.server.world.ServerWorld;
 import nl.tdegroot.games.pixxel.util.Log;
 
 import java.io.IOException;
@@ -14,6 +15,9 @@ public class GameServer {
     private Server server;
     private ServerListener serverListener;
     private HashMap<Integer, String> clients = new HashMap<Integer, String>();
+
+    public ServerWorld serverWorld;
+
     private Level level;
 
     private String name;
@@ -27,6 +31,9 @@ public class GameServer {
 
         server = new Server(8192, 8192);
         serverListener = new ServerListener(this);
+
+        serverWorld = new ServerWorld();
+
         level = new Level();
 
         serverListener.setLevel(level);

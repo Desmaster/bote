@@ -5,6 +5,7 @@ import com.esotericsoftware.kryonet.Listener;
 import nl.tdegroot.games.bote.common.level.Level;
 import nl.tdegroot.games.bote.common.packet.Packet;
 import nl.tdegroot.games.bote.server.GameServer;
+import nl.tdegroot.games.bote.server.world.ServerWorld;
 import nl.tdegroot.games.pixxel.util.Log;
 
 public class ServerListener extends Listener {
@@ -40,5 +41,9 @@ public class ServerListener extends Listener {
     public synchronized void setLevel(Level level) {
         this.level = level;
 
+    }
+
+    public ServerWorld getWorld() {
+        return gameServer.serverWorld;
     }
 }
