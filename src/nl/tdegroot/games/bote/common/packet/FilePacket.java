@@ -5,6 +5,7 @@ import nl.tdegroot.games.bote.common.ClientListener;
 import nl.tdegroot.games.bote.common.ServerListener;
 
 public class FilePacket implements Packet {
+    Byte[] data;
 
     public void onServer(Connection connection, ServerListener serverListener) {
     }

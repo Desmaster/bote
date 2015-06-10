@@ -3,17 +3,20 @@ package nl.tdegroot.games.bote.common;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import nl.tdegroot.games.bote.client.BattleGame;
+import nl.tdegroot.games.bote.client.states.GameState;
 import nl.tdegroot.games.bote.common.level.Level;
 import nl.tdegroot.games.bote.common.packet.Packet;
+import nl.tdegroot.games.pixxel.state.State;
 import nl.tdegroot.games.pixxel.util.Log;
 
 public class ClientListener extends Listener {
 
-    private final BattleGame game;
+    private final GameState gameState;
     private Level level;
 
-    public ClientListener(BattleGame game) {
-        this.game = game;
+    //TODO: Make this compatible with multiple states?
+    public ClientListener(GameState gameState) {
+        this.gameState = gameState;
     }
 
     public void connected(Connection connection) {
@@ -29,8 +32,8 @@ public class ClientListener extends Listener {
         ((Packet) obj).onClient(connection, this);
     }
 
-    public BattleGame getGame() {
-        return game;
+    public GameState getState() {
+        return gameState;
     }
 
     public synchronized Level getLevel() {
