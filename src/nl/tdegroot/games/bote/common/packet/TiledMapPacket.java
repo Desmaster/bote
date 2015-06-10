@@ -2,6 +2,7 @@ package nl.tdegroot.games.bote.common.packet;
 
 import com.esotericsoftware.kryonet.Connection;
 import nl.tdegroot.games.bote.common.ClientListener;
+import nl.tdegroot.games.bote.common.Network;
 import nl.tdegroot.games.bote.common.ServerListener;
 import nl.tdegroot.games.pixxel.GameException;
 import nl.tdegroot.games.pixxel.map.tiled.TiledMap;
@@ -31,7 +32,7 @@ public class TiledMapPacket implements Packet {
 
     public void onServer(Connection connection, ServerListener serverListener) {
         tiledMapContents = getTiledMapContents();
-        sendTilesets("res/tiledmap.tmx", connection);
+        sendTilesets(Network.MAP_LOCATION, connection);
         connection.sendTCP(this);
     }
 
@@ -48,11 +49,10 @@ public class TiledMapPacket implements Packet {
             e.printStackTrace();
         }
         Log.info(System.getProperty("user.home"));
-        // TODO: https://stackoverflow.com/questions/562160/in-java-how-do-i-parse-xml-as-a-string-instead-of-a-file
     }
 
     private String getTiledMapContents() {
-        InputStream is = ResourceLoader.getResourceAsStream("res/tiledmap.tmx");
+        InputStream is = ResourceLoader.getResourceAsStream(Network.MAP_LOCATION);
         InputStreamReader input = new InputStreamReader(is);
         final int CHARS_PER_PAGE = 5000; //counting spaces
         final char[] buffer = new char[CHARS_PER_PAGE];
@@ -63,7 +63,7 @@ public class TiledMapPacket implements Packet {
                  read = input.read(buffer, 0, buffer.length)) {
                 output.append(buffer, 0, read);
             }
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
 
         return output.toString();
@@ -75,7 +75,7 @@ public class TiledMapPacket implements Packet {
             InputStream in = ResourceLoader.getResourceAsStream(ref);
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setValidating(false);
-            DocumentBuilder builder = null;
+            DocumentBuilder builder;
             builder = factory.newDocumentBuilder();
             builder.setEntityResolver((publicId, systemId) -> new InputSource(new ByteArrayInputStream(new byte[0])));
             Document doc = builder.parse(in);

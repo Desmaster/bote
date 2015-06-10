@@ -14,17 +14,16 @@ public class Network {
     public static final int TCP_PORT = 62333;
     public static final int UDP_PORT = 62334;
 
+    public static final String MAP_LOCATION = "res/tiledmap.tmx";
+
     public static void register(EndPoint endPoint) {
         Kryo kryo = endPoint.getKryo();
+
         kryo.register(LoginPacket.class);
         kryo.register(TiledMapPacket.class);
-        kryo.register(TiledMap.class);
-        kryo.register(int[].class);
-        kryo.register(int[][].class);
-        kryo.register(Sprite.class);
-        kryo.register(Sprite[].class);
-        kryo.register(Color.class);
         kryo.register(ImageFilePacket.class);
+
+        kryo.register(int[].class);
     }
 
 }
