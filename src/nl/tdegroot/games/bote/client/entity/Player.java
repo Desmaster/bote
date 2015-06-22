@@ -1,6 +1,7 @@
 package nl.tdegroot.games.bote.client.entity;
 
 import nl.tdegroot.games.bote.client.world.World;
+import nl.tdegroot.games.bote.common.entity.EntityState;
 import nl.tdegroot.games.pixxel.Keyboard;
 import nl.tdegroot.games.pixxel.gfx.Animation;
 import nl.tdegroot.games.pixxel.gfx.Screen;
@@ -9,6 +10,8 @@ import nl.tdegroot.games.pixxel.gfx.SpriteSheet;
 import nl.tdegroot.games.pixxel.math.Vector2i;
 
 public class Player extends Entity {
+
+    private static String entityType = "PLAYER";
 
     Vector2i size;
     SpriteSheet spriteSheet;
@@ -26,21 +29,21 @@ public class Player extends Entity {
     }
 
     @Override
-    public void tick(int delta) {
+    public void tick() {
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            pos.setY(pos.getY() - 1);
+            position.setY(position.getY() - 1);
         }
 
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            pos.setX(pos.getX() + 1);
+            position.setX(position.getX() + 1);
         }
 
         if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            pos.setY(pos.getY() + 1);
+            position.setY(position.getY() + 1);
         }
 
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            pos.setX(pos.getX() - 1);
+            position.setX(position.getX() - 1);
         }
     }
 
@@ -48,7 +51,7 @@ public class Player extends Entity {
     public void render(Screen screen) {
 //        spriteSheet.render(pos.getX(), pos.getY(), 0, 0, screen);
 
-        screen.drawString(pos.getX(), pos.getY(), "Lorey");
-        walkAnimation.render(pos.getX(), pos.getY(), screen);
+        walkAnimation.render(position.getX(), position.getY(), screen);
+//        screen.drawString(position.getX(), position.getY(), "Lorey");
     }
 }

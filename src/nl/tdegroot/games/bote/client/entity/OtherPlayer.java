@@ -22,13 +22,13 @@ public class OtherPlayer extends Entity {
     }
 
     @Override
-    public void tick(int delta) {
+    public void tick() {
 
     }
 
     @Override
     public void render(Screen screen) {
-        screen.drawString(pos.getX(), pos.getY(), "Other player");
-        walkAnimation.render(pos.getX(), pos.getY(), screen);
+        screen.drawString(position.getX(), position.getY(), "Other player");
+        walkAnimation.render(position.getX(), position.getY(), screen);
     }
 }

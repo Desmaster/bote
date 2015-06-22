@@ -50,8 +50,4 @@ public class ClientListener extends Listener {
     public synchronized World getWorld() {
         return gameState.world;
     };
-
-    public synchronized String getPlayerID() {
-        return gameState.playerid;
-    }
 }

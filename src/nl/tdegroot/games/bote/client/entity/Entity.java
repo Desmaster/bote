@@ -5,29 +5,66 @@ import nl.tdegroot.games.bote.common.entity.EntityState;
 import nl.tdegroot.games.pixxel.gfx.Screen;
 import nl.tdegroot.games.pixxel.math.Vector2i;
 
-import java.util.UUID;
+import java.util.Objects;
 
 public abstract class Entity {
 
-    public final String id = UUID.randomUUID().toString();
+    private int id = 0;
+    private static String entityType;
 
-    World world;
-    public Vector2i pos;
+    private World world;
+    private EntityState state;
+
+    public Vector2i position;
 
     public Entity(World world, int x, int y) {
-        this.world = world;
-        pos = new Vector2i(x, y);
-
         world.addEntity(this);
+
+        position = new Vector2i(x, y);
+        state = new EntityState();
+        state.setEntityClass(getClass());
     };
 
-    public void updateState(EntityState state) {
-        pos = state.position;
+    public int getId() { return id; }
+
+    /**
+     * Sets the Entity Id
+     * Can only be set once
+     * @param id Id of the Entity
+     */
+    public void setId(int id) {
+        if (this.id == 0) this.id = id;
+    }
+
+    public static void setType(String type) { if (entityType == null) entityType = type; }
+
+    public static String getType() { return entityType; }
+
+    public void setState(EntityState entityState) {
+        state = entityState;
+
+        if (!Objects.equals(getType(), "PLAYER") || entityType == null) {
+            entityType = getType();
+        }
+
+        position  = entityState.position;
+    }
+
+    public EntityState getState() {
+        return state;
+    }
+
+    public void setWorld(World world) {
+        this.world = world;
+    }
+
+    public World getWorld() {
+        return world;
     }
 
     public abstract void init();
 
-    public abstract void tick(int delta);
+    public abstract void tick();
 
     public abstract void render(Screen screen);
 }

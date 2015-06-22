@@ -5,14 +5,12 @@ import nl.tdegroot.games.bote.client.entity.Player;
 import nl.tdegroot.games.bote.client.world.World;
 import nl.tdegroot.games.bote.common.ClientListener;
 import nl.tdegroot.games.bote.common.Network;
-import nl.tdegroot.games.bote.common.level.Level;
+import nl.tdegroot.games.bote.common.entity.EntityPacket;
+import nl.tdegroot.games.bote.common.entity.PlayerPacket;
 import nl.tdegroot.games.bote.common.packet.LoginPacket;
 import nl.tdegroot.games.bote.common.packet.Packet;
-import nl.tdegroot.games.bote.common.packet.TiledMapPacket;
-import nl.tdegroot.games.bote.common.packet.WorldPacket;
 import nl.tdegroot.games.pixxel.Display;
 import nl.tdegroot.games.pixxel.GameException;
-import nl.tdegroot.games.pixxel.Keyboard;
 import nl.tdegroot.games.pixxel.PixxelGame;
 import nl.tdegroot.games.pixxel.gfx.Camera;
 import nl.tdegroot.games.pixxel.gfx.Font;
@@ -22,38 +20,38 @@ import nl.tdegroot.games.pixxel.util.Log;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.util.UUID;
 
 public class GameState extends State {
     private Client client;
 
     private final String host;
 
-    private Level level;
-
     private boolean loggedIn = false;
 
     Font font;
 
-    Camera cam;
+    private Display display;
+    private Camera cam;
 
     public World world;
 
-    public String playerid;
     Player player;
 
     public GameState(PixxelGame game, String host) {
         super(game);
-
         this.host = host;
     }
 
     public void init(Display display) throws GameException {
+        this.display = display;
+
         Log.info("Trying to connect to server on: " + host + ":" + Network.TCP_PORT + "/" + Network.UDP_PORT);
         try {
             client = new Client(8192, 8192);
 
+
             ClientListener clientListener = new ClientListener(this);
+
             InetAddress address = InetAddress.getByName(host);
             client.start();
 
@@ -70,7 +68,7 @@ public class GameState extends State {
 
         sendTCP(login);
 
-        font = new Font("res/font_trans.png", 6, 6);
+        font = new Font("/res/font_2.png", 8, 8);
         display.getScreen().setFont(font);
 
         cam = new Camera(0, 0, display.getScaledWidth(), display.getScaledHeight());
@@ -79,20 +77,20 @@ public class GameState extends State {
         world.init();
         
         player = new Player(world, 100, 100);
-        playerid = player.id;
 
-        WorldPacket worldPacket = new WorldPacket();
-        worldPacket.syncClientToServer(this);
-        sendTCP(worldPacket);
+        PlayerPacket playerPacket = new PlayerPacket();
+        playerPacket.player = player.getState();
+        sendTCP(playerPacket);
     }
 
-    public void tick(Display display, int delta) {
-        world.tick(delta);
+    public void tick() {
+        world.tick();
 
         display.setTitle("Camera x: " + cam.getX() + " Camera y: " + cam.getY());
     }
 
-    public void render(Display display, Screen screen) {
+    public void render(Screen screen) {
+
         screen.setProjectionMatrix(cam.getProjectionMatrix());
         screen.translate(cam.getX(), cam.getY());
 
