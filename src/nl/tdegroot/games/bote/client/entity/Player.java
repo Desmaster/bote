@@ -18,32 +18,34 @@ public class Player extends Entity {
     Animation walkAnimation;
 
     public Player(World world, int x, int y) {
-        super(world, x, y);
+        super(world);
+
+        getState().position = new Vector2i(x, y);
     }
 
     @Override
     public void init() {
         spriteSheet = new SpriteSheet("res/player_trans.png", 32, 32);
         walkAnimation = new Animation(spriteSheet);
-        walkAnimation.setFrameStrip(25, 29);
+        walkAnimation.setFrameStrip(80, 89);
     }
 
     @Override
     public void tick() {
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            position.setY(position.getY() - 1);
+            getPos().setY(getPos().getY() - 1);
         }
 
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            position.setX(position.getX() + 1);
+            getPos().setX(getPos().getX() + 1);
         }
 
         if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            position.setY(position.getY() + 1);
+            getPos().setY(getPos().getY() + 1);
         }
 
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            position.setX(position.getX() - 1);
+            getPos().setX(getPos().getX() - 1);
         }
     }
 
@@ -51,7 +53,7 @@ public class Player extends Entity {
     public void render(Screen screen) {
 //        spriteSheet.render(pos.getX(), pos.getY(), 0, 0, screen);
 
-        walkAnimation.render(position.getX(), position.getY(), screen);
-//        screen.drawString(position.getX(), position.getY(), "Lorey");
+        walkAnimation.render(getPos().getX(), getPos().getY(), screen);
+//        screen.drawString(getPos().getX(), getPos().getY(), "Lorey");
     }
 }

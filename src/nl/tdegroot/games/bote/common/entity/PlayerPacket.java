@@ -19,7 +19,6 @@ public class PlayerPacket implements Packet {
     @Override
     public void onClient(Connection connection, ClientListener clientListener) {
         clientListener.getWorld().getPlayer().setState(player);
-        System.out.println(clientListener.getWorld().getPlayer().getId());
 
         //start entity sync between client and server
         connection.sendTCP(new EntityPacket());

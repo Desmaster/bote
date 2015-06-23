@@ -97,8 +97,6 @@ public class GameState extends State {
         world.render(screen);
 
         screen.translate(-cam.getX(), -cam.getY());
-
-
     }
 
     public void setLoggedIn(boolean loggedIn) {

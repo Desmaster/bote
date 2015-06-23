@@ -56,11 +56,9 @@ public class World {
     }
 
     public void addEntity(Entity entity) {
-        System.out.println("Registering entity with ID: " + entity.getId());
         entity.setWorld(this);
         entities.add(entity);
 
-        System.out.println("Size of entitylist after registry: " + entities.size());
 
         if (entity.getClass() == Player.class) {
             player = (Player) entity;
@@ -74,18 +72,13 @@ public class World {
             Class entityClass = entityState.getEntityClass();
 
             if (entityClass == Player.class && entityState.getId() != player.getId()) {
-                System.out.println("otherplayer!");
                 entityClass = OtherPlayer.class;
             }
 
-            Entity entity = (Entity) (entityClass.getConstructor(entityState.getClass())).newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+            Entity entity = (Entity) entityClass.getConstructor(World.class).newInstance(this);
+            entity.setState(entityState);
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

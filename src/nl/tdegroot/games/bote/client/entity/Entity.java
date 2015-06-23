@@ -10,17 +10,13 @@ import java.util.Objects;
 public abstract class Entity {
 
     private int id = 0;
-    private static String entityType;
 
     private World world;
     private EntityState state;
 
-    public Vector2i position;
-
-    public Entity(World world, int x, int y) {
+    public Entity(World world) {
         world.addEntity(this);
 
-        position = new Vector2i(x, y);
         state = new EntityState();
         state.setEntityClass(getClass());
     };
@@ -36,18 +32,9 @@ public abstract class Entity {
         if (this.id == 0) this.id = id;
     }
 
-    public static void setType(String type) { if (entityType == null) entityType = type; }
-
-    public static String getType() { return entityType; }
-
     public void setState(EntityState entityState) {
         state = entityState;
-
-        if (!Objects.equals(getType(), "PLAYER") || entityType == null) {
-            entityType = getType();
-        }
-
-        position  = entityState.position;
+        setId(entityState.getId());
     }
 
     public EntityState getState() {
@@ -67,4 +54,8 @@ public abstract class Entity {
     public abstract void tick();
 
     public abstract void render(Screen screen);
+
+    public Vector2i getPos() {
+        return state.position;
+    }
 }

@@ -1,5 +1,6 @@
 package nl.tdegroot.games.bote.server.world;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import nl.tdegroot.games.bote.common.entity.EntityState;
 import nl.tdegroot.games.bote.common.event.EventDispatcher;
 import nl.tdegroot.games.bote.common.event.EventHandler;
@@ -16,6 +17,7 @@ public class ServerWorld implements EventHandler {
     private ArrayList<EntityState> entityStates = new ArrayList<EntityState>();
 
     public ServerWorld() {
+        System.out.println("Server world!");
         EventDispatcher.register(this);
     }
 
@@ -25,6 +27,7 @@ public class ServerWorld implements EventHandler {
     }
 
     public ArrayList<EntityState> getEntityStates() {
+        System.out.println(entityStates.size());
         return entityStates;
     }
 
@@ -38,13 +41,9 @@ public class ServerWorld implements EventHandler {
     }
 
     public EntityState registerEntity(EntityState entityState) {
-        //TODO: Needs to be more unique
         int randomID = Random.nextInt(0, Integer.MAX_VALUE);
-        System.out.println("randomID = " + randomID);
+
         entityState.setId(randomID);
-
-        System.out.println("Entity ID:" + entityState.getId());
-
         entityStates.add(entityState);
 
         return entityState;

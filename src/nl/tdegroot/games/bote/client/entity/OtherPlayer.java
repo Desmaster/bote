@@ -10,15 +10,15 @@ public class OtherPlayer extends Entity {
     SpriteSheet spriteSheet;
     Animation walkAnimation;
 
-    public OtherPlayer(World world, int x, int y) {
-        super(world, x, y);
+    public OtherPlayer(World world) {
+        super(world);
     }
 
     @Override
     public void init() {
         spriteSheet = new SpriteSheet("res/player_trans.png", 32, 32);
         walkAnimation = new Animation(spriteSheet);
-        walkAnimation.setFrameStrip(25, 29);
+        walkAnimation.setFrameStrip(40, 49);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class OtherPlayer extends Entity {
 
     @Override
     public void render(Screen screen) {
-        screen.drawString(position.getX(), position.getY(), "Other player");
-        walkAnimation.render(position.getX(), position.getY(), screen);
+        screen.drawString(getPos().getX(), getPos().getY(), "Other player");
+        walkAnimation.render(getPos().getX(), getPos().getY(), screen);
     }
 }

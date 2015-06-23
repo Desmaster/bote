@@ -19,9 +19,6 @@ public class EventDispatcher {
                 for (Annotation annotation : method.getAnnotations()) {
                     EventListener listener = (EventListener) annotation;
 
-                    System.out.println("listener.value() = " + listener.value());
-                    System.out.println("event.event = " + event.event);
-
                     if (listener.value().equals(event.event)) {
                         try {
                             method.invoke(eventHandler, event);
