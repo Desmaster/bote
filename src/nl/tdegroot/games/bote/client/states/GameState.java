@@ -5,7 +5,6 @@ import nl.tdegroot.games.bote.client.entity.Player;
 import nl.tdegroot.games.bote.client.world.World;
 import nl.tdegroot.games.bote.common.ClientListener;
 import nl.tdegroot.games.bote.common.Network;
-import nl.tdegroot.games.bote.common.entity.EntityPacket;
 import nl.tdegroot.games.bote.common.entity.PlayerPacket;
 import nl.tdegroot.games.bote.common.packet.LoginPacket;
 import nl.tdegroot.games.bote.common.packet.Packet;
@@ -13,11 +12,12 @@ import nl.tdegroot.games.pixxel.Display;
 import nl.tdegroot.games.pixxel.GameException;
 import nl.tdegroot.games.pixxel.PixxelGame;
 import nl.tdegroot.games.pixxel.gfx.Camera;
-import nl.tdegroot.games.pixxel.gfx.Font;
 import nl.tdegroot.games.pixxel.gfx.Screen;
 import nl.tdegroot.games.pixxel.state.State;
 import nl.tdegroot.games.pixxel.util.Log;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 
@@ -27,8 +27,6 @@ public class GameState extends State {
     private final String host;
 
     private boolean loggedIn = false;
-
-    Font font;
 
     private Display display;
     private Camera cam;
@@ -68,8 +66,12 @@ public class GameState extends State {
 
         sendTCP(login);
 
-        font = new Font("/res/font_2.png", 8, 8);
-        display.getScreen().setFont(font);
+        try {
+            Font font = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/pixels.ttf")).deriveFont(24f);
+            display.getScreen().setDefaultFont(font);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         cam = new Camera(0, 0, display.getScaledWidth(), display.getScaledHeight());
 
@@ -78,6 +80,7 @@ public class GameState extends State {
         
         player = new Player(world, 100, 100);
 
+        //TODO: Player now could be registered in EntityPacket aswell, still needs to be added.
         PlayerPacket playerPacket = new PlayerPacket();
         playerPacket.player = player.getState();
         sendTCP(playerPacket);

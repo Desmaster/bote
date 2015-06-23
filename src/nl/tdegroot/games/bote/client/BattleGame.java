@@ -17,7 +17,7 @@ public class BattleGame extends PixxelStateGame {
 
     public static void main(String[] args) {
         BattleGame game = new BattleGame("Battle of Tiled Environments", 1280, 720, 4, "localhost");
-        game.setLogFps(false);
+        game.setLogFps(true);
         game.start();
     }
 
