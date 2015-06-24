@@ -34,15 +34,6 @@ public class ServerListener extends Listener {
         return gameServer;
     }
 
-    public synchronized Level getLevel() {
-        return level;
-    }
-
-    public synchronized void setLevel(Level level) {
-        this.level = level;
-
-    }
-
     public ServerWorld getWorld() {
         return gameServer.serverWorld;
     }

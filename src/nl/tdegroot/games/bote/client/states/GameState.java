@@ -5,7 +5,6 @@ import nl.tdegroot.games.bote.client.entity.Player;
 import nl.tdegroot.games.bote.client.world.World;
 import nl.tdegroot.games.bote.common.ClientListener;
 import nl.tdegroot.games.bote.common.Network;
-import nl.tdegroot.games.bote.common.entity.EntityPacket;
 import nl.tdegroot.games.bote.common.entity.PlayerPacket;
 import nl.tdegroot.games.bote.common.packet.LoginPacket;
 import nl.tdegroot.games.bote.common.packet.Packet;
@@ -46,11 +45,9 @@ public class GameState extends State {
         this.display = display;
 
         Log.info("Trying to connect to server on: " + host + ":" + Network.TCP_PORT + "/" + Network.UDP_PORT);
+        ClientListener clientListener = new ClientListener(this);
         try {
             client = new Client(8192, 8192);
-
-
-            ClientListener clientListener = new ClientListener(this);
 
             InetAddress address = InetAddress.getByName(host);
             client.start();
@@ -63,28 +60,31 @@ public class GameState extends State {
             e.printStackTrace();
         }
 
-        LoginPacket login = new LoginPacket();
-        login.name = "Simone";
-
-        sendTCP(login);
-
         font = new Font("/res/font_2.png", 8, 8);
         display.getScreen().setFont(font);
 
         cam = new Camera(0, 0, display.getScaledWidth(), display.getScaledHeight());
 
-        world = new World();
+        world = new World(this);
         world.init();
         
         player = new Player(world, 100, 100);
 
-        PlayerPacket playerPacket = new PlayerPacket();
-        playerPacket.player = player.getState();
-        sendTCP(playerPacket);
+        clientListener.setReady(true);
+
+        LoginPacket login = new LoginPacket();
+        login.name = "Simone";
+
+        sendTCP(login);
+
+//        PlayerPacket playerPacket = new PlayerPacket();
+//        playerPacket.state = player.getState();
+//        sendTCP(playerPacket);
+
     }
 
     public void tick() {
-        world.tick();
+        world.tick((int) game.getTime());
 
         display.setTitle("Camera x: " + cam.getX() + " Camera y: " + cam.getY());
     }
@@ -109,5 +109,9 @@ public class GameState extends State {
 
     public void sendUDP(Packet packet) {
         client.sendUDP(packet);
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

@@ -11,15 +11,17 @@ public abstract class Entity {
 
     private int id = 0;
 
-    private World world;
-    private EntityState state;
+    protected World world;
+    protected EntityState state;
+    protected Vector2i position;
 
     public Entity(World world) {
         world.addEntity(this);
 
         state = new EntityState();
         state.setEntityClass(getClass());
-    };
+        position = new Vector2i(100, 100);
+    }
 
     public int getId() { return id; }
 
@@ -37,10 +39,6 @@ public abstract class Entity {
         setId(entityState.getId());
     }
 
-    public EntityState getState() {
-        return state;
-    }
-
     public void setWorld(World world) {
         this.world = world;
     }
@@ -55,7 +53,17 @@ public abstract class Entity {
 
     public abstract void render(Screen screen);
 
-    public Vector2i getPos() {
-        return state.position;
+    public EntityState getState() {
+        state.position = position;
+
+        return state;
+    }
+
+    public synchronized Vector2i getPosition() {
+         return position;
+    }
+
+    public void setPosition(Vector2i position) {
+        this.position = position;
     }
 }

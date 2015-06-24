@@ -7,10 +7,7 @@ import nl.tdegroot.games.bote.client.world.World;
 import nl.tdegroot.games.bote.common.entity.EntityPacket;
 import nl.tdegroot.games.bote.common.entity.EntityState;
 import nl.tdegroot.games.bote.common.entity.PlayerPacket;
-import nl.tdegroot.games.bote.common.packet.ImageFilePacket;
-import nl.tdegroot.games.bote.common.packet.LoginPacket;
-import nl.tdegroot.games.bote.common.packet.TiledMapPacket;
-import nl.tdegroot.games.bote.common.packet.WorldPacket;
+import nl.tdegroot.games.bote.common.packet.*;
 import nl.tdegroot.games.pixxel.gfx.Color;
 import nl.tdegroot.games.pixxel.gfx.Sprite;
 import nl.tdegroot.games.pixxel.map.tiled.Layer;
@@ -29,6 +26,7 @@ public class Network {
     public static void register(EndPoint endPoint) {
         Kryo kryo = endPoint.getKryo();
         kryo.register(LoginPacket.class);
+        kryo.register(BroadcastPacket.class);
         kryo.register(TiledMapPacket.class);
         kryo.register(ImageFilePacket.class);
 

@@ -3,33 +3,43 @@ package nl.tdegroot.games.bote.client.world;
 import nl.tdegroot.games.bote.client.entity.Entity;
 import nl.tdegroot.games.bote.client.entity.OtherPlayer;
 import nl.tdegroot.games.bote.client.entity.Player;
+import nl.tdegroot.games.bote.client.states.GameState;
 import nl.tdegroot.games.bote.common.entity.EntityState;
-import nl.tdegroot.games.pixxel.Display;
+import nl.tdegroot.games.bote.common.entity.PlayerPacket;
 import nl.tdegroot.games.pixxel.GameException;
 import nl.tdegroot.games.pixxel.gfx.Screen;
 import nl.tdegroot.games.pixxel.map.tiled.TiledMap;
-import nl.tdegroot.games.pixxel.util.Random;
+import nl.tdegroot.games.pixxel.math.Vector2i;
+import nl.tdegroot.games.pixxel.util.Log;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class World {
+
     public ArrayList<Entity> entities = new ArrayList<Entity>();
 
-    TiledMap map;
-    Player player;
+    private TiledMap map;
+    private Player player;
+    private GameState gameState;
 
-    public World() {
-
+    public World(GameState gameState) {
+        this.gameState = gameState;
     }
 
     public void init() throws GameException {
         map = new TiledMap("/res/tiledmap.tmx");
     }
 
-    public void tick() {
+    public void tick(int time) {
         for(Entity entity : entities) {
             entity.tick();
+            if (time % 100 == 0) {
+                EntityState entityState = getPlayer().getState();
+                PlayerPacket playerPacket = new PlayerPacket();
+                playerPacket.state = entityState;
+
+                gameState.sendUDP(playerPacket);
+            }
         }
     }
 
@@ -77,6 +87,9 @@ public class World {
 
             Entity entity = (Entity) entityClass.getConstructor(World.class).newInstance(this);
             entity.setState(entityState);
+            entity.setPosition(new Vector2i(100, 100));
+
+            Log.info("Created entity");
 
         } catch (Exception e) {
             e.printStackTrace();

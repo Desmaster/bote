@@ -3,8 +3,9 @@ package nl.tdegroot.games.bote.common.entity;
 import nl.tdegroot.games.pixxel.math.Vector2i;
 
 public class EntityState {
-    private int id = 0;
-    public Vector2i position;
+
+    public int id = 0;
+    public Vector2i position = new Vector2i(100, 100);
     public Class entityClass;
 
     public int getId() {
@@ -22,4 +23,5 @@ public class EntityState {
     public void setEntityClass(Class entityClass) {
         if (this.entityClass == null) this.entityClass = entityClass;
     }
+
 }

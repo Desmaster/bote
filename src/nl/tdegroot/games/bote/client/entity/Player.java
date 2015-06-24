@@ -1,15 +1,13 @@
 package nl.tdegroot.games.bote.client.entity;
 
 import nl.tdegroot.games.bote.client.world.World;
-import nl.tdegroot.games.bote.common.entity.EntityState;
 import nl.tdegroot.games.pixxel.Keyboard;
 import nl.tdegroot.games.pixxel.gfx.Animation;
 import nl.tdegroot.games.pixxel.gfx.Screen;
-import nl.tdegroot.games.pixxel.gfx.Sprite;
 import nl.tdegroot.games.pixxel.gfx.SpriteSheet;
 import nl.tdegroot.games.pixxel.math.Vector2i;
 
-public class Player extends Entity {
+public class Player extends Entity implements Syncable {
 
     private static String entityType = "PLAYER";
 
@@ -20,7 +18,7 @@ public class Player extends Entity {
     public Player(World world, int x, int y) {
         super(world);
 
-        getState().position = new Vector2i(x, y);
+        position = new Vector2i(x, y);
     }
 
     @Override
@@ -32,28 +30,35 @@ public class Player extends Entity {
 
     @Override
     public void tick() {
+        int x = getPosition().getX();
+        int y = getPosition().getY();
+
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            getPos().setY(getPos().getY() - 1);
+            y -= 1;
         }
 
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            getPos().setX(getPos().getX() + 1);
+            x += 1;
         }
 
         if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            getPos().setY(getPos().getY() + 1);
+            y += 1;
         }
 
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            getPos().setX(getPos().getX() - 1);
+            x -= 1;
         }
+
+        getPosition().setX(x);
+        getPosition().setY(y);
+        getState().position = getPosition();
     }
 
     @Override
     public void render(Screen screen) {
 //        spriteSheet.render(pos.getX(), pos.getY(), 0, 0, screen);
 
-        walkAnimation.render(getPos().getX(), getPos().getY(), screen);
-//        screen.drawString(getPos().getX(), getPos().getY(), "Lorey");
+        walkAnimation.render(getPosition().getX(), getPosition().getY(), screen);
+//        screen.drawString(getPosition().getX(), getPosition().getY(), "Lorey");
     }
 }
